@@ -1,13 +1,15 @@
-package me.hyukjin.developer.controller;
+package me.hyukjin.developer;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class MainController {
+public class HomeController {
+
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String home(){
+    public String Main(){
         return "hello, world";
     }
+
 }
