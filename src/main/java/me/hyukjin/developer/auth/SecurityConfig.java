@@ -53,7 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .httpBasic().disable()
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin()
-//                    .loginPage("/login")
+                    .loginPage("/login")
                     .usernameParameter("email").passwordParameter("pwd")
                     .successHandler(new RefererRedirectionAuthenticationSuccessHandler())
                 .and()
