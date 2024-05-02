@@ -1,12 +1,13 @@
 package me.hyukjin.developer.member.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
 import lombok.Data;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "member")
@@ -17,8 +18,8 @@ public class Member {
     @Column(name= "seq")
     private Long seq;
 
-    @Column(name= "id", nullable = false)
-    private String id;
+    @Column(name= "email", nullable = false)
+    private String eamil;
 
     @Column(name= "name", nullable = false)
     private String name;
