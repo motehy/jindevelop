@@ -19,7 +19,7 @@ public class Member {
     private Long seq;
 
     @Column(name= "email", nullable = false)
-    private String eamil;
+    private String email;
 
     @Column(name= "name", nullable = false)
     private String name;

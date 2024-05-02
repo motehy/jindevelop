@@ -13,7 +13,7 @@
         <!-- Links -->
         <ul class="links">
             <li>
-                <a href="#" id="signin">SIGN IN</a>
+                <a href="javascript:void(0);">SIGN IN</a>
             </li>
             <li>
                 <a href="#" id="signup">SIGN UP</a>
@@ -24,21 +24,21 @@
         </ul>
 
         <!-- Form -->
-        <form  action="" method="post">
+        <form action="/login" method="post" id="fm_login">
             <!-- email input -->
             <div class="first-input input__block first-input__block">
-                <input type="email" placeholder="Email" class="input" id="email"   />
+                <input type="email" placeholder="Email" class="input" id="email" name="email"  />
             </div>
             <!-- password input -->
             <div class="input__block">
-                <input type="password" placeholder="Password" class="input" id="password"    />
+                <input type="password" placeholder="Password" class="input" id="pwd" name="pwd" />
             </div>
             <!-- repeat password input -->
             <div class="input__block">
                 <input type="password" placeholder="Repeat password" class="input repeat__password" id="repeat__password"    />
             </div>
             <!-- sign in button -->
-            <button class="signin__btn">
+            <button class="signin__btn" id="signin">
                 Sign in
             </button>
         </form>
@@ -47,12 +47,12 @@
             <p>OR</p>
         </div>
         <!-- google button -->
-        <button class="google__btn">
+        <button type="button" class="google__btn">
             <i class="fa fa-google"></i>
             Sign in with Google
         </button>
         <!-- google button -->
-        <button class="github__btn">
+        <button type="button" class="github__btn">
             <i class="fa fa-github"></i>
             Sign in with GitHub
         </button>
@@ -85,4 +85,6 @@
         </p>
     </footer>
 </body>
+<script type="text/javascript">
+</script>
 </html>

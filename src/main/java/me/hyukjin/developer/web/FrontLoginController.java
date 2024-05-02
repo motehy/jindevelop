@@ -12,5 +12,10 @@ public class FrontLoginController {
     public String Login(){
         return "login/login";
     }
+//
+//    @RequestMapping(value = "/login", method = RequestMethod.POST)
+//    public String Loginp(){
+//        return "login/login";
+//    }
 
 }
