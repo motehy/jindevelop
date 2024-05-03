@@ -1,6 +1,8 @@
 package me.hyukjin.developer.auth;
 
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.DefaultRedirectStrategy;
+import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 import javax.servlet.ServletException;
@@ -14,6 +16,7 @@ public class RefererRedirectionAuthenticationSuccessHandler implements Authentic
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
         session.setAttribute("user", authentication.getPrincipal());
-        response.sendRedirect("/main");
+        RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+        redirectStrategy.sendRedirect(request, response, "/main");
     }
 }

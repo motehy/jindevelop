@@ -20,10 +20,9 @@ public class MemberPrincipal {
         String roleNamePrefix = "ROLE_";
 
         return CommonPrincipal.builder()
-                .email((String)member.getEmail())
-                .name((String)member.getName())
-                .pwd(member.getPwd())
-                .authorities(Arrays.<GrantedAuthority>asList(new SimpleGrantedAuthority(roleNamePrefix.concat("USER"))))
+                .email(member.getEmail())
+                .name(member.getName())
+                .authorities(Arrays.<GrantedAuthority>asList(new SimpleGrantedAuthority(roleNamePrefix.concat("ADMIN"))))
                 .build();
     }
 

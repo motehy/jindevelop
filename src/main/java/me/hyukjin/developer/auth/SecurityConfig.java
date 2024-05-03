@@ -4,14 +4,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.crypto.password.MessageDigestPasswordEncoder;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @EnableWebSecurity
 @EnableMethodSecurity
@@ -22,23 +23,31 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     LoginUserDetailsService loginUserDetailsService;
 
+    private final JwtUtil jwtUtil;
+
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoder() {
-        //return new BCryptPasswordEncoder();
-        return new MessageDigestPasswordEncoder("SHA-512");
-    }
-    @Bean
-    public UserAuthenticationProvider userAuthProvider() {
-        UserAuthenticationProvider userProvider = new UserAuthenticationProvider();
-        userProvider.setUserDetailsService(loginUserDetailsService);
-        userProvider.setPasswordEncoder(passwordEncoder());
-        return userProvider;
+        return new BCryptPasswordEncoder();
+//        return new MessageDigestPasswordEncoder("SHA-512");
     }
 
+    @Bean
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(userAuthProvider());
+    protected AuthenticationManager authenticationManager() throws Exception {
+        return super.authenticationManager();
     }
+//    @Bean
+//    public UserAuthenticationProvider userAuthProvider() {
+//        UserAuthenticationProvider userProvider = new UserAuthenticationProvider();
+//        userProvider.setUserDetailsService(loginUserDetailsService);
+//        userProvider.setPasswordEncoder(passwordEncoder());
+//        return userProvider;
+//    }
+
+//    @Override
+//    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        auth.authenticationProvider(userAuthProvider());
+//    }
 
 
 
@@ -46,18 +55,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
 
         http
-                .authorizeRequests()
-                .antMatchers("/", "/css/**").permitAll()
+                .csrf().disable()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+        http.authorizeRequests()
+                .antMatchers("/main", "/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .httpBasic().disable()
-                .csrf(AbstractHttpConfigurer::disable)
+//                .csrf(AbstractHttpConfigurer::disable)
                 .formLogin()
-                    .loginPage("/login")
-                    .usernameParameter("email").passwordParameter("pwd")
+//                    .loginPage("/login")
+//                    .usernameParameter("email").passwordParameter("pwd")
                     .successHandler(new RefererRedirectionAuthenticationSuccessHandler())
                 .and()
-                .logout();
+                .logout()
+                .and()
+                // 커스텀 필터를 ID/PW 기반으로 인증하는 기본 필터 앞에 넣어서 먼저 인증을 시도하게 함
+                .addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class);
 
     }
 }
